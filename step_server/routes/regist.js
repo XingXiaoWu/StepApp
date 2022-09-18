@@ -13,6 +13,7 @@ router.post('/', (req, res, next) => {
             status: "-1",
             message: "注册失败，未获取到激活码",
         })
+        return
     }
     const activeJson = fs.readJSONSync("./assets/activeCode.json")
     // 比对激活码的值是否存在，如果存在，修改为-1
@@ -57,6 +58,7 @@ router.get('/getAccount',(req, res, next) => {
             status: "-1",
             message: "管理员码不对，无法获取账号情况",
         })
+        return
     }
     const result = fs.readJSONSync("./assets/account.json")
     res.send({
@@ -73,6 +75,7 @@ router.get('/getCodeState',(req, res, next) => {
             status: "-1",
             message: "管理员码不对，无法获取激活码情况",
         })
+        return
     }
     const result = fs.readJSONSync("./assets/activeCode.json")
     res.send({

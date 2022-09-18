@@ -1,4 +1,5 @@
-import axios from '@xing.wu/axios'
+const axios = require('../utils/http') 
+// import axios from "@xing.wu/axios"
 const dayjs = require('dayjs')
 const { get_data_json } = require('./dataJson.js')
 

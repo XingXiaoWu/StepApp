@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/bin/www"
+            "program": "${workspaceFolder}/bin/www",
+            "runtimeExecutable": "/Users/xingwu/.nvm/versions/node/v18.4.0/bin/node"
         }
     ]
 }

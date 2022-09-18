@@ -1,6 +1,6 @@
 import axios from '@xing.wu/axios'
-import dayjs from 'dayjs'
-import { get_data_json } from './dataJson.js'
+const dayjs = require('dayjs')
+const { get_data_json } = require('./dataJson.js')
 
 const get_login_code = async (user,password) => {
     let url1 = "https://api-user.huami.com/registrations/+86" + user + "/tokens"
@@ -92,7 +92,7 @@ const get_app_token = async (login_token) =>{
     const response = await axios.GET(url,{},{
         headers
     })
-    let app_token = response['token_info']['app_token']
+    let app_token = response?.['token_info']?.['app_token']
     return app_token
 }
 
@@ -104,37 +104,30 @@ const set_step = async (t,today,app_token,userId,step) => {
     }
     const data_json = get_data_json(today, step)
     const data  = 'userid='+userId+'&last_sync_data_time=1597306380&device_type=0&last_deviceid=DA932FFFFE8816E7&data_json='+data_json;
-    const response = await axios.POSTJSON(url, data, {headers})
-    .catch(error=>{
+    try {
+        const response = await axios.POSTJSON(url, data, {headers})    
+        const result = response['message'] + "修改步数:"+ step; 
+        return result
+    } catch (error) {
         console.log(error);
-    })
-    console.log(response);
-    const result = response['message'] + "修改步数:"+ step; 
-    return result
+        return "修改步数失败，请联系管理员"
+    }    
 }
-const syncStep = async (step = 15000,account = '',password = '')=>{
+const syncStep = async (account = '',password = '', step = 15000,)=>{
     const code = await get_login_code(account,password)
-    if (!code) return 'login fail'
+    if (!code) return '未能获取code，登录失败'
     const {login_token, userId} = await get_login_token(code);
-    if (login_token === 0) {
-        console.log('login fail');
-        
-    }
+    if (login_token === 0) return '未能获取login_token，登录失败'
     const t = await get_time()
-    console.log("time:"+t);
 
     const app_token = await get_app_token(login_token)
-    console.log('app_token:'+app_token);
-
-    
+    if (!app_token) return '未能获取app_token，登录失败'
     const today = dayjs().format('YYYY-MM-DD')
-    console.log(today);
     const result = await set_step(t,today,app_token,userId,step)
-    console.log(result);
-    console.log('结束');
+    return result
 }
 
 // main()
-export {
+module.exports = {
     syncStep
 }

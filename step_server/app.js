@@ -6,6 +6,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const registRouter = require('./routes/regist');
+const syncRouter = require('./routes/sync');
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// 注册
 app.use('/regist', registRouter);
+app.use('/sync', syncRouter);
 
 module.exports = app;

@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@xing.wu/axios': ^1.1.0
+  '@xing.wu/axios': 1.1.0
   cookie-parser: ~1.4.4
   dayjs: ^1.11.5
   debug: ~2.6.9

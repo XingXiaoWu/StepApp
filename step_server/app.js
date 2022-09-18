@@ -7,7 +7,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const registRouter = require('./routes/regist');
 const syncRouter = require('./routes/sync');
-
+// 
 const app = express();
 
 app.use(logger('dev'));

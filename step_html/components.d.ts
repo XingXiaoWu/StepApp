@@ -11,5 +11,8 @@ declare module '@vue/runtime-core' {
     NCard: typeof import('naive-ui')['NCard']
     NGi: typeof import('naive-ui')['NGi']
     NGrid: typeof import('naive-ui')['NGrid']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    VanNavBar: typeof import('vant/es')['NavBar']
   }
 }

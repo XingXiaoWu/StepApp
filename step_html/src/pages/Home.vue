@@ -10,7 +10,7 @@
 
   <RouterLink to="/installZepp" class="self-center mt-20px">一.点击我查看准备工作</RouterLink>
 
-  <RouterLink to="/installZepp" class="self-center mt-20px">二.点击我去同步微信步数</RouterLink>
+  <RouterLink to="/SyncStep" class="self-center mt-20px">二.点击我去同步微信步数</RouterLink>
 
  
 </template>

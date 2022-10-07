@@ -11,8 +11,9 @@ declare interface ResponseX<T = any> {
 
 // 默认配置
 let defaults = {
+	// baseURL: "http://localhost:3000/",
 	baseURL: 'http://step-server-fc.step-server-framework.1251296805112027.cn-hangzhou.fc.devsapp.net/',
-	withCredentials: true,
+	withCredentials: false,
 	timeout: 50000
 }
 
@@ -73,7 +74,7 @@ const xingwuDefaultInterceptorsResponse = axios.interceptors.response.use(
 		// 	// return {}
 		// }
 		// 以下兼容某些后端团队，设置http status不正确，并返回response
-		const errorMsg = error?.response?.data?.message || error?.response?.data?.msg || '服务端请求出错，请稍后重试！'
+		const errorMsg = error?.response?.message || error?.response?.data?.message || error?.response?.data?.message || '服务端请求出错，请稍后重试！'
 		const notFindMsg = error?.response?.data?.message || '请求地址错误！'
 		if (status === 404) {
 			error.message = notFindMsg

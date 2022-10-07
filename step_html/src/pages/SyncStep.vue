@@ -8,8 +8,8 @@
             <!-- 输入任意文本 -->
             <van-field v-model="code" label="授权码" />
         </van-cell-group>
-        <p class="m-30px">如果你是第一次使用，下面是一个一次性的激活码</p>
-        <p class="m-30px">可以供你测试一次</p>
+        <p class="m-30px">如果你是第一次使用，下面是一个有效期为今天的激活码</p>
+        <p class="m-30px">可以供你测试一天</p>
         <p class="m-30px">b51f6279c86ac7d48aef4add21e3388c</p>
         <van-button type="primary" :loading="loading1" size="large" @click="regist">注册</van-button>
     </div>
@@ -67,7 +67,7 @@ const syncStep = () => {
     loading2.value = true
     axios.POSTJSON('/sync/', {
         phone: account.value.trim(),
-        password: code.value.trim(),
+        password: password.value.trim(),
         step: step.value
     }).then((response) => {
         Toast.success(response.message)

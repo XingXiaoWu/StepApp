@@ -4,6 +4,7 @@ const router = express.Router();
 const fs = require("fs-extra")
 const dayjs = require("dayjs")
 
+const {registActiveCode} = require("../services/registService")
 // 注册
 router.post('/', (req, res, next) => {
     // 获取请求内容
@@ -15,41 +16,10 @@ router.post('/', (req, res, next) => {
         })
         return
     }
-    const activeJson = fs.readJSONSync("./assets/activeCode.json")
-    // 比对激活码的值是否存在，如果存在，修改为-1
-    if (activeJson[code] === "0") {
-        // 存在。激活
-        activeJson[code] = "1"
-        const account = {
-            [phone]:{
-                code,
-                expirationTime: dayjs().add(30,'day').format("YYYY-MM-DD")
-            }
-        }
-        console.log(account);
-        fs.writeJsonSync("./assets/activeCode.json",activeJson)
-        const registeredJson = fs.readJSONSync("./assets/account.json")
-        fs.writeJsonSync("./assets/account.json",{
-            ...registeredJson,
-            ...account,
-        })
-        res.send({
-            status: "0",
-            message: "注册成功，手机号有效期至" + account[phone].expirationTime,
-        })
-    } else if (activeJson[code] === "1") {
-        res.send({
-            status: "-1",
-            message: "注册失败，此激活码已经激活过了",
-        })
-    } else {
-        // 不存在
-        res.send({
-            status: "-1",
-            message: "注册失败，未获取到激活码",
-        })
-    }
+    registActiveCode(code,phone)
 });
+// 一日激活码注册
+router.post('/oneday',)
 // 获取账号情况
 router.get('/getAccount',(req, res, next) => {
     const {admin} = req.body

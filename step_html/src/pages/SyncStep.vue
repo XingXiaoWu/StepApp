@@ -23,7 +23,7 @@
             <!-- 输入任意文本 -->
             <van-field v-model="step" label="微信步数" />
         </van-cell-group>
-        <van-button type="primary" size="large" @click="syncStep" class="mt-60px">同步</van-button>
+        <van-button type="primary" :loading="loading2" size="large" @click="syncStep" class="mt-60px">同步</van-button>
     </div>
 </template>
 
@@ -54,17 +54,26 @@ const onClickLeft = () => {
 const regist = () => {
     loading1.value = true
     axios.POSTJSON('/regist/', {
-        phone: tel.value,
-        code: code.value
+        phone: tel.value.trim(),
+        code: code.value.trim()
     }).then((response) => {
         Toast.success(response.message)
-    }).finally(()=>{
+    }).finally(() => {
         loading1.value = false
     })
 }
 
 const syncStep = () => {
-
+    loading2.value = true
+    axios.POSTJSON('/sync/', {
+        phone: account.value.trim(),
+        password: code.value.trim(),
+        step: step.value
+    }).then((response) => {
+        Toast.success(response.message)
+    }).finally(() => {
+        loading2.value = false
+    })
 }
 </script>
 <style scoped lang='less'>

@@ -1,11 +1,11 @@
 const fs = require("fs-extra")
 const dayjs = require("dayjs")
 
-const registActiveCode = (code, phone) => {
+const registActiveCode = (code, phone, res) => {
     const activeJson = fs.readJSONSync("./assets/activeCode.json")
     // 比对激活码的值是否存在，如果存在，修改为1
     if (activeJson[code] === "0") {
-        writeAccount(code, phone, 30)
+        const account = writeAccount(code, phone, 30)
         res.send({
             status: "0",
             message: "注册成功，手机号有效期至" + account[phone].expirationTime,
@@ -17,15 +17,15 @@ const registActiveCode = (code, phone) => {
         })
     } else if (activeJson[code] === "2") {
         // 激活过测试码的列表
-        const testArray = fs.readJSONSync('./assets/testUsers.json')
-        if (testArray.includes(phone)) {
+        const testUsers = fs.readJSONSync('./assets/testUsers.json')
+        if (testUsers.includes(phone)) {
             res.send({
                 status: "-1",
                 message: "已经激活过一次测试码了,请使用其他激活码",
             })
         } else {
             // 判断此用户是否激活过测试码
-            writeAccount(code, phone, 1)
+            const account = writeAccount(code, phone, 1)
             // 测试码
             res.send({
                 status: "0",
@@ -52,6 +52,10 @@ const writeAccount = (code, phone, day) => {
     // 是否为测试激活码
     if (day === 1) {
         activeJson[code] = "2"
+        // 写入
+        const testUsers = fs.readJSONSync('./assets/testUsers.json')
+        testUsers.push(phone)
+        fs.writeJsonSync("./assets/testUsers.json",testUsers)
     } else {
         activeJson[code] = "1"
     }
@@ -62,6 +66,7 @@ const writeAccount = (code, phone, day) => {
         ...registeredJson,
         ...account,
     })
+    return account
 }
 
 module.exports = {

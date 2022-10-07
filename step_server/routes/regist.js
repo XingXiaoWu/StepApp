@@ -4,7 +4,7 @@ const router = express.Router();
 const fs = require("fs-extra")
 const dayjs = require("dayjs")
 
-const {registActiveCode} = require("../services/registService")
+const { registActiveCode } = require("../services/registService")
 // 注册
 router.post('/', (req, res, next) => {
     // 获取请求内容
@@ -16,13 +16,19 @@ router.post('/', (req, res, next) => {
         })
         return
     }
-    registActiveCode(code,phone)
+    registActiveCode(code, phone, res)
 });
 // 一日激活码注册
-router.post('/oneday',)
+router.post('/oneday', (req, res, next) => {
+    // 获取请求内容
+    const { phone } = req.body
+    // 此码为测试码
+    const code = 'b51f6279c86ac7d48aef4add21e3388c'
+    registActiveCode(code, phone, res)
+});
 // 获取账号情况
-router.get('/getAccount',(req, res, next) => {
-    const {admin} = req.body
+router.get('/getAccount', (req, res, next) => {
+    const { admin } = req.body
     if (admin !== '329106954') {
         res.send({
             status: "-1",
@@ -32,14 +38,14 @@ router.get('/getAccount',(req, res, next) => {
     }
     const result = fs.readJSONSync("./assets/account.json")
     res.send({
-        status:"0",
-        message:"获取成功",
+        status: "0",
+        message: "获取成功",
         data: result
     })
 })
 // 获取激活码情况
-router.get('/getCodeState',(req, res, next) => {
-    const {admin} = req.body
+router.get('/getCodeState', (req, res, next) => {
+    const { admin } = req.body
     if (admin !== '329106954') {
         res.send({
             status: "-1",
@@ -49,8 +55,8 @@ router.get('/getCodeState',(req, res, next) => {
     }
     const result = fs.readJSONSync("./assets/activeCode.json")
     res.send({
-        status:"0",
-        message:"获取成功",
+        status: "0",
+        message: "获取成功",
         data: result
     })
 })

@@ -36,7 +36,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: page
-          cname: www.xingxiaowu.cn
 
       # - name: push-to-branch-pages
       #   env:

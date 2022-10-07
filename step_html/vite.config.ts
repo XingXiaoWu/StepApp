@@ -6,12 +6,21 @@ import { VantResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:"./",
+  base: "./",
   plugins: [
     vue(),
     WindiCSS(),
     Components({
       resolvers: [VantResolver()],
     }),
-  ]
+  ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      },
+    }
+  }
 })

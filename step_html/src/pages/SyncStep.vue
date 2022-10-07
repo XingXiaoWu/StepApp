@@ -6,7 +6,7 @@
             <!-- 输入手机号，调起手机号键盘 -->
             <van-field v-model="tel" type="tel" label="手机号" />
             <!-- 输入任意文本 -->
-            <van-field v-model="text" label="授权码" />
+            <van-field v-model="code" label="授权码" />
         </van-cell-group>
         <p class="m-30px">如果你是第一次使用，下面是一个一次性的激活码</p>
         <p class="m-30px">可以供你测试一次</p>
@@ -30,13 +30,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import axios from '../utils/http'
 const router = useRouter();
 
 /**
 * 数据部分
 */
-const text = ref('');
+const code = ref('');
 const tel = ref('');
 const account = ref('');
 const password = ref('');
@@ -46,7 +46,13 @@ const onClickLeft = () => {
     router.back()
 }
 const regist = () => {
-    
+    axios.POSTJSON('/regist/', {
+        phone: tel,
+        code: code.value
+    }).then((response)=>{
+        console.log(response);
+        
+    })
 }
 
 const syncStep = () => {

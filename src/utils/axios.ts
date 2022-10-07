@@ -11,7 +11,7 @@ declare interface ResponseX<T = any> {
 
 // 默认配置
 let defaults = {
-	baseURL: '',
+	baseURL: 'http://step-server-fc.step-server-framework.1251296805112027.cn-hangzhou.fc.devsapp.net/',
 	withCredentials: true,
 	timeout: 50000
 }

@@ -14,7 +14,6 @@ declare global {
 }
 
 // 兜底处理
-axios.defaults.baseURL = '/api'
 const errorHandle = (error: Error) => {
     // 处理错误,尝试获取error的message展示
     const { message } = error

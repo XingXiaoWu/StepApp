@@ -11,7 +11,7 @@
         <p class="m-30px">如果你是第一次使用，下面是一个一次性的激活码</p>
         <p class="m-30px">可以供你测试一次</p>
         <p class="m-30px">b51f6279c86ac7d48aef4add21e3388c</p>
-        <van-button type="primary" size="large" @click="regist">注册</van-button>
+        <van-button type="primary" :loading="loading1" size="large" @click="regist">注册</van-button>
     </div>
 
     <div>
@@ -30,7 +30,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { Toast } from "vant";
 import axios from '../utils/http'
+
+
+
 const router = useRouter();
 
 /**
@@ -41,17 +45,21 @@ const tel = ref('');
 const account = ref('');
 const password = ref('');
 const step = ref('');
+const loading1 = ref(false);
+const loading2 = ref(false);
 
 const onClickLeft = () => {
     router.back()
 }
 const regist = () => {
+    loading1.value = true
     axios.POSTJSON('/regist/', {
-        phone: tel,
+        phone: tel.value,
         code: code.value
-    }).then((response)=>{
-        console.log(response);
-        
+    }).then((response) => {
+        Toast.success(response.message)
+    }).finally(()=>{
+        loading1.value = false
     })
 }
 
